@@ -1,0 +1,26 @@
+cat > .gitignore <<'EOF'
+# Ignore Moodle caches and local data
+moodledata/
+cache/
+localcache/
+temp/
+
+# IDE files
+.idea/
+.vscode/
+
+# Version control remnants
+.svn/
+.git/
+
+# macOS junk
+.DS_Store
+Thumbs.db
+
+# Temporary and build files
+*.swp
+*.bak
+*.tmp
+*.zip
+*.tar.gz
+EOF
