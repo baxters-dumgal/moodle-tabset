@@ -18,11 +18,17 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details: http://www.gnu.org/copyleft/gpl.html
 
+INSTALLATION
+
+Copy to your moodle/mod directory then visit your admin page
+
 Created by:
 
-* Steve Baxter 
+* Steve Baxter
 * chatGPT 5
 
 Intentionally omitted features:
 
 * Custom templates - This may be a feature in the future but if you want to do completely custom tabsets, you may as well just use bootstrap. For now you can specify your own templates in install.php to suit your needs, or use the defaults.
+
+
