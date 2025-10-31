@@ -1,4 +1,4 @@
-Tabset module for Moodle (http://moodle.org/) - Copyright (C) 2025 Dumfries and Galloway College (dumgal.ac.uk)
+Tabset module for Moodle 4 (http://moodle.org/) - Copyright (C) 2025 Dumfries and Galloway College (dumgal.ac.uk)
 
 The module makes it easy to create an attractive bootstrap - tabbed welcome area in your Moodle course. You can optionally create additional welcome areas and restrict them to certain groups - maybe full time or part time student groups.
 
@@ -30,5 +30,8 @@ Created by:
 Intentionally omitted features:
 
 * Custom templates - This may be a feature in the future but if you want to do completely custom tabsets, you may as well just use bootstrap. For now you can specify your own templates in install.php to suit your needs, or use the defaults.
+
+Roadmap:
+Moodle 5 version in development. Javascript and bootstrap changes make this version incompatible with Moodle 5
 
 
