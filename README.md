@@ -1,4 +1,6 @@
-Tabset module for Moodle (http://moodle.org/) - Copyright (C) 2025 Dumfries and Galloway College (dumgal.ac.uk)
+Note that this is the Moodle 5 version of the plugin.
+
+Tabset module for Moodle 5 (http://moodle.org/) - Copyright (C) 2025 Dumfries and Galloway College (dumgal.ac.uk)
 
 The module makes it easy to create an attractive bootstrap - tabbed welcome area in your Moodle course. You can optionally create additional welcome areas and restrict them to certain groups - maybe full time or part time student groups.
 
