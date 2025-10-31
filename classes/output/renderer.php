@@ -8,6 +8,11 @@ class renderer extends \plugin_renderer_base {
     public function render_tabset($tabset) {
         global $PAGE;
 
+        // Only enqueue JS when rendering in a proper page context.
+        if (!empty($PAGE) && $PAGE instanceof \moodle_page) {
+            $PAGE->requires->js_call_amd('mod_tabset/init_tabs', 'init');
+        }
+
         $context  = \context_module::instance($tabset->cmid ?? $PAGE->cm->id);
         $titles   = $tabset->titles ?? [];
         $contents = $tabset->tabcontents ?? [];

@@ -3,14 +3,15 @@
         {{#tabs}}
             <li class="nav-item" role="presentation">
                 <a class="nav-link {{#active}}active{{/active}} {{colorclass}}"
-                   id="tab-{{uniq}}-{{index}}"
-                   data-toggle="tab"
-                   href="#tab-content-{{uniq}}-{{index}}"
-                   role="tab"
-                   aria-controls="tab-content-{{uniq}}-{{index}}"
-                   aria-selected="{{#active}}true{{/active}}{{^active}}false{{/active}}">
-                    {{{title}}}
-                </a>
+   id="tab-{{uniq}}-{{index}}"
+   data-bs-toggle="tab"
+   href="#tab-content-{{uniq}}-{{index}}"
+   role="tab"
+   aria-controls="tab-content-{{uniq}}-{{index}}"
+   aria-selected="{{#active}}true{{/active}}{{^active}}false{{/active}}">
+    {{{title}}}
+</a>
+
             </li>
         {{/tabs}}
     </ul>

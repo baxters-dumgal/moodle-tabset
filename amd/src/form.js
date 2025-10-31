@@ -1,37 +1,27 @@
-define(['jquery'], function($) {
-    return {
-        /**
-         * Initialise the form behaviour for the Tabset activity.
-         *
-         * Shows/hides tab content editors based on selected template.
-         *
-         * @param {Object} tabtitles Mapping of template IDs to array of tab titles.
-         */
-        init: function(tabtitles) {
-            var $select = $('#id_templateid');
+import $ from 'jquery';
 
-            /**
-             * Show/hide editor fields depending on the chosen template.
-             *
-             * Updates labels to match the tab titles.
-             */
-            function updateEditors() {
-                var tid = $select.val();
-                var titles = tabtitles[tid] || [];
+/**
+ * Initialise the form behaviour for the Tabset activity.
+ * Shows/hides tab content editors based on selected template.
+ *
+ * @param {Object} tabtitles Mapping of template IDs to array of tab titles.
+ */
+export const init = (tabtitles) => {
+    const $select = $('#id_templateid');
 
-                // Hide all editors first.
-                $('[id^=fitem_id_tabcontent]').hide();
+    const updateEditors = () => {
+        const tid = $select.val();
+        const titles = tabtitles[tid] || [];
 
-                // Show only as many as there are titles.
-                for (var i = 0; i < titles.length; i++) {
-                    var $field = $('#fitem_id_tabcontent_' + i);
-                    $field.show();
-                    $field.find('label').text(titles[i]);
-                }
-            }
+        $('[id^=fitem_id_tabcontent]').hide();
 
-            $select.on('change', updateEditors);
-            updateEditors(); // run on page load
-        }
+        titles.forEach((title, i) => {
+            const $field = $(`#fitem_id_tabcontent_${i}`);
+            $field.show();
+            $field.find('label').text(title);
+        });
     };
-});
+
+    $select.on('change', updateEditors);
+    updateEditors();
+};
