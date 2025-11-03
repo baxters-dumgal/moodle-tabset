@@ -89,28 +89,58 @@ function tabset_add_instance($data, $mform = null) {
  * Update an existing tabset instance.
  */
 function tabset_update_instance($data, $mform = null) {
-    global $DB;
-    $record = $DB->get_record('tabset', array('id' => $data->instance), '*', MUST_EXIST);
+    global $DB, $CFG;
 
+    $record = $DB->get_record('tabset', ['id' => $data->instance], '*', MUST_EXIST);
     $record->name        = $data->name;
-    // Template cannot be changed after creation to avoid drift.
     $record->intro       = $data->intro ?? null;
-    $record->introformat = $data->introformat ?? 1;
-
-    $tabcontents = array();
-    if (!empty($data->tabcontent) && is_array($data->tabcontent)) {
-        foreach ($data->tabcontent as $idx => $editor) {
-            if (is_array($editor) && isset($editor['text'])) {
-                $tabcontents[] = $editor['text'];
-            } else {
-                $tabcontents[] = (string)$editor;
-            }
-        }
-    }
-    $record->tabcontents = json_encode($tabcontents);
+    $record->introformat = $data->introformat ?? FORMAT_HTML;
     $record->timemodified = time();
 
+    // ✅ Get the module context.
+    $cmid = $data->coursemodule;
+    $context = \context_module::instance($cmid);
+
+    $editoroptions = [
+        'maxfiles' => EDITOR_UNLIMITED_FILES,
+        'maxbytes' => $CFG->maxbytes,
+        'trusttext' => true,
+        'context' => $context,
+        'subdirs' => 0,
+    ];
+
+    $tabcontents = [];
+    if (!empty($data->tabcontent) && is_array($data->tabcontent)) {
+        foreach ($data->tabcontent as $i => $editor) {
+
+            // --- Step 1: Move files from draft area into permanent filearea ---
+            $savedtext = file_save_draft_area_files(
+                $editor['itemid'],      // draft itemid from the editor
+                $context->id,           // correct module context
+                'mod_tabset',           // component
+                'tabcontent',           // filearea
+                $i,                     // ✅ tab index as itemid
+                $editoroptions,
+                $editor['text']         // text with draft URLs
+            );
+
+            // --- Step 2: Rewrite the URLs to pluginfile.php links ---
+            $rewritten = file_rewrite_pluginfile_urls(
+                $savedtext,
+                'pluginfile.php',
+                $context->id,
+                'mod_tabset',
+                'tabcontent',
+                $i
+            );
+
+            $tabcontents[$i] = $rewritten;
+        }
+    }
+
+    $record->tabcontents = json_encode($tabcontents);
     $DB->update_record('tabset', $record);
+
     return true;
 }
 
