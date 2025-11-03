@@ -5,7 +5,7 @@
  * @copyright 2025 Dumfries and Galloway College
  */
 import $ from 'jquery';
-import {Tab} from 'bootstrap';
+const { Tab } = window.bootstrap || {};
 
 /**
  * Sets up Bootstrap tab activation.
