@@ -22,5 +22,5 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->component = 'mod_tabset';      // Full name of the plugin (used for diagnostics).
 $plugin->version   = 2025100622;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires = 2024100700;         // Requires Moodle 5.0 (adjust if you need earlier support).
-$plugin->maturity  = MATURITY_BETA;    // This is a beta version.
-$plugin->release   = '0.9.0';           // Human-readable release name.
+$plugin->maturity  = MATURITY_ALPHA;    // This is a beta version.
+$plugin->release   = '0.2.0';           // Human-readable release name.
