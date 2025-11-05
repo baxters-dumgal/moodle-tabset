@@ -48,11 +48,11 @@ class restore_tabset_activity_task extends restore_activity_task {
     public static function define_decode_contents() {
         $contents = [];
 
-        // Decode URLs in both intro and tabcontents fields.
+        // Decode URLs in both intro and tabcontents fields
         $contents[] = new restore_decode_content('tabset', ['intro', 'tabcontents'], 'tabset');
 
         return $contents;
-    }  
+    }
 
     /**
      * Define link decoding rules

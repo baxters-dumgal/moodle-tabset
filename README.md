@@ -5,11 +5,8 @@ The module makes it easy to create an attractive bootstrap - tabbed welcome area
 There are 3 templates provided on install:
 
 Basic: Welcome, About and Contacts
-
 Course: Welcome, About, Outcomes, Schedule, Assessment and Contacts
-
 Metaskills: Welcome, About, Outcomes, Metaskills, Schedule, Assessment and Contacts
-
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

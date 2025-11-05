@@ -27,7 +27,7 @@ function tabset_supports($feature) {
         case FEATURE_MOD_INTRO: return true;
         case FEATURE_COMPLETION_TRACKS_VIEWS: return true;
         case FEATURE_COMPLETION_HAS_RULES: return true; // allow manual completion
-        case FEATURE_BACKUP_MOODLE2: return false;
+        case FEATURE_BACKUP_MOODLE2: return true;
         case FEATURE_NO_VIEW_LINK: return true;
         default: return null;
     }
@@ -72,7 +72,7 @@ function tabset_add_instance($data, $mform = null) {
             $context->id,
             'mod_tabset',
             'tabcontent',
-            $i
+            0
         );
     }
 
@@ -119,7 +119,7 @@ function tabset_update_instance($data, $mform = null) {
                 $context->id,           // correct module context
                 'mod_tabset',           // component
                 'tabcontent',           // filearea
-                $i,                     // ✅ tab index as itemid
+                0,                     // ✅ tab index as itemid
                 $editoroptions,
                 $editor['text']         // text with draft URLs
             );
@@ -131,7 +131,7 @@ function tabset_update_instance($data, $mform = null) {
                 $context->id,
                 'mod_tabset',
                 'tabcontent',
-                $i
+                0
             );
 
             $tabcontents[$i] = $rewritten;

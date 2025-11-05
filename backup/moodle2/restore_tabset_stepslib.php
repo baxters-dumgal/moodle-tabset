@@ -28,27 +28,32 @@ defined('MOODLE_INTERNAL') || die();
 class restore_tabset_activity_structure_step extends restore_activity_structure_step {
 
     protected function define_structure() {
+        // 1️⃣ Define one simple path: <activity><tabset>...</tabset></activity>
         $paths = [];
         $paths[] = new restore_path_element('tabset', '/activity/tabset');
-        return $paths;
+
+        return $this->prepare_activity_structure($paths);
+
     }
 
     protected function process_tabset($data) {
         global $DB;
 
+        // 2️⃣ Convert $data (array from XML) into an object.
         $data = (object)$data;
         $data->course = $this->get_courseid();
 
-        // Insert the record
+        // 3️⃣ Insert it into your module's main table.
         $newitemid = $DB->insert_record('tabset', $data);
 
-        // Apply the instance ID mapping
+        // 4️⃣ Apply mapping between old and new instance IDs.
         $this->apply_activity_instance($newitemid);
     }
 
     protected function after_execute() {
-        // Add related files, no need to match by itemid (null).
+        // 5️⃣ Restore standard intro files (if any).
         $this->add_related_files('mod_tabset', 'intro', null);
+        // Restore all tabcontent files (single itemid = null).
         $this->add_related_files('mod_tabset', 'tabcontent', null);
     }
 }

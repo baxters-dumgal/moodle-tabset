@@ -25,10 +25,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+
+
 class backup_tabset_activity_structure_step extends backup_activity_structure_step {
 
-    protected function define_structure() {
-        // Define each element of your structure.
+
+
+
+     protected function define_structure() {
+        // 1️⃣ Define the root element for this activity.
         $tabset = new backup_nested_element('tabset', ['id'], [
             'course',
             'name',
@@ -40,14 +45,15 @@ class backup_tabset_activity_structure_step extends backup_activity_structure_st
             'timemodified'
         ]);
 
-        // Define sources.
+        // 2️⃣ Define the data source — the main DB table.
+        // Maps the activity ID being backed up to the DB record.
         $tabset->set_source_table('tabset', ['id' => backup::VAR_ACTIVITYID]);
 
-        // ✅ Include editor file areas.
+        // 3️⃣ Annotate only the intro file area (safe, always exists).
         $tabset->annotate_files('mod_tabset', 'intro', null);
         $tabset->annotate_files('mod_tabset', 'tabcontent', null);
-
-        // Return the root element (tabset), wrapped into standard activity structure.
+       
+        // 4️⃣ Return the structure wrapped into the standard activity structure.
         return $this->prepare_activity_structure($tabset);
     }
 }
