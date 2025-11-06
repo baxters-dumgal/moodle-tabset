@@ -99,7 +99,7 @@ class mod_tabset_mod_form extends moodleform_mod {
                     $context->id,
                     'mod_tabset',
                     'tabcontent',
-                    0,              // ✅ Use tab index as itemid.
+                    $i,              // ✅ Use tab index as itemid.
                     $editoroptions,
                     $html
                 ),
@@ -137,7 +137,7 @@ function get_data() {
                     $savecontext->id,
                     'mod_tabset',
                     'tabcontent',
-                    0,
+                    $i,
                     $editoroptions,
                     $content['text']
                 );
