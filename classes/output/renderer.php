@@ -38,7 +38,7 @@ class renderer extends \plugin_renderer_base {
                 $context->id,
                 'mod_tabset',
                 'tabcontent',
-                0    // ✅ use the tab index as the itemid
+                $i    // ✅ use the tab index as the itemid
             );
 
             // ✅ Step 3: Format rewritten HTML safely for output.
