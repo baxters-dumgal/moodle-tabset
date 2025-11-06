@@ -30,7 +30,8 @@ class restore_tabset_activity_structure_step extends restore_activity_structure_
     protected function define_structure() {
         $paths = [];
         $paths[] = new restore_path_element('tabset', '/activity/tabset');
-        return $paths;
+        
+        return $this->prepare_activity_structure($paths);
     }
 
     protected function process_tabset($data) {

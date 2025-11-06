@@ -27,7 +27,7 @@ function tabset_supports($feature) {
         case FEATURE_MOD_INTRO: return true;
         case FEATURE_COMPLETION_TRACKS_VIEWS: return true;
         case FEATURE_COMPLETION_HAS_RULES: return true; // allow manual completion
-        case FEATURE_BACKUP_MOODLE2: return false;
+        case FEATURE_BACKUP_MOODLE2: return true;
         case FEATURE_NO_VIEW_LINK: return true;
         default: return null;
     }
