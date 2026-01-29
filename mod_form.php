@@ -112,41 +112,28 @@ class mod_tabset_mod_form extends moodleform_mod {
 
 
 function get_data() {
-    global $CFG, $COURSE;
-
     $data = parent::get_data();
-    if ($data) {
-        $editoroptions = [
-            'maxfiles' => EDITOR_UNLIMITED_FILES,
-            'maxbytes' => $CFG->maxbytes,
-            'trusttext' => true,
-            'context' => $this->context,
-            'subdirs' => 0,
-        ];
 
-        // Use course context if module context not yet available.
-        $savecontext = ($this->context && $this->context->contextlevel == CONTEXT_MODULE)
-            ? $this->context
-            : \context_course::instance($COURSE->id);
-
-        $contents = [];
-        if (!empty($data->tabcontent)) {
-            foreach ($data->tabcontent as $i => $content) {
-                $savedtext = file_save_draft_area_files(
-                    $content['itemid'],
-                    $savecontext->id,
-                    'mod_tabset',
-                    'tabcontent',
-                    $i,
-                    $editoroptions,
-                    $content['text']
-                );
-                $contents[$i] = $savedtext;
-            }
-        }
-        $data->tabcontents = json_encode($contents);
+    if (!$data) {
+        return false;
     }
+
+    // IMPORTANT:
+    // Do NOT save files here.
+    // Do NOT rewrite editor content.
+    // Do NOT choose or guess a context.
+    //
+    // The editor fields (tabcontent[]) will still contain:
+    //  - 'text'   => HTML with draft placeholders
+    //  - 'itemid' => draft area id
+    //
+    // Files will be saved later in:
+    //   mod_tabset_add_instance()
+    //   mod_tabset_update_instance()
+
     return $data;
 }
+
+
 
 }

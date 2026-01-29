@@ -39,45 +39,51 @@ function tabset_supports($feature) {
 function tabset_add_instance($data, $mform = null) {
     global $DB;
 
+    // 1. Insert basic record (no tab contents yet)
     $record = new stdClass();
     $record->course      = $data->course;
     $record->name        = $data->name;
     $record->templateid  = $data->templateid;
     $record->intro       = $data->intro ?? null;
     $record->introformat = $data->introformat ?? FORMAT_HTML;
-    $record->tabcontents = $data->tabcontents ?? '[]';
+    $record->tabcontents = ''; // set later
     $record->timecreated = $record->timemodified = time();
 
-    // 1️⃣ Create DB record first so a context can exist.
     $id = $DB->insert_record('tabset', $record);
 
-    // 2️⃣ Get proper module context.
+    // 2. Get module context (now it exists)
     $cmid = $data->coursemodule;
-    $context = \context_module::instance($cmid);
+    $context = context_module::instance($cmid);
 
-    // 3️⃣ Move any files from course context → module context.
-    $oldcontext = \context_course::instance($data->course);
-    $fs = get_file_storage();
+    // 3. Save editor files properly
+    $editoroptions = [
+        'maxfiles'  => EDITOR_UNLIMITED_FILES,
+        'trusttext' => true,
+        'context'   => $context,
+        'subdirs'   => 0,
+    ];
 
-    // Move all files in the course context area to the new module context.
-    $fs->move_area_files_to_new_context($oldcontext->id, $context->id, 'mod_tabset', 'tabcontent');
+    $contents = [];
 
-    // 4️⃣ Update JSON text to ensure @@PLUGINFILE@@ links are correct.
-    $contents = json_decode($record->tabcontents, true);
-    $fixed = [];
-    foreach ($contents as $i => $html) {
-        $fixed[$i] = file_rewrite_pluginfile_urls(
-            $html,
-            'pluginfile.php',
-            $context->id,
-            'mod_tabset',
-            'tabcontent',
-            $i
-        );
+    if (!empty($data->tabcontent)) {
+        foreach ($data->tabcontent as $i => $content) {
+            $contents[$i] = file_save_draft_area_files(
+                $content['itemid'],
+                $context->id,
+                'mod_tabset',
+                'tabcontent',
+                $i,
+                $editoroptions,
+                $content['text']
+            );
+        }
     }
 
+    // 4. Update record with FINAL HTML (contains @@PLUGINFILE@@)
     $record->id = $id;
-    $record->tabcontents = json_encode($fixed);
+    $record->tabcontents = json_encode($contents);
+    $record->timemodified = time();
+
     $DB->update_record('tabset', $record);
 
     return $id;
