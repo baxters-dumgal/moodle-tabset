@@ -27,6 +27,8 @@ defined('MOODLE_INTERNAL') || die();
 
 class restore_tabset_activity_structure_step extends restore_activity_structure_step {
 
+    protected $newinstanceid = null;
+
     protected function define_structure() {
         // 1️⃣ Define one simple path: <activity><tabset>...</tabset></activity>
         $paths = [];
@@ -42,7 +44,7 @@ class restore_tabset_activity_structure_step extends restore_activity_structure_
         // 2️⃣ Convert $data (array from XML) into an object.
         $data = (object)$data;
         $data->course = $this->get_courseid();
-
+        
         // 3️⃣ Insert it into your module's main table.
         $newitemid = $DB->insert_record('tabset', $data);
 
@@ -50,10 +52,13 @@ class restore_tabset_activity_structure_step extends restore_activity_structure_
         $this->apply_activity_instance($newitemid);
     }
 
+
+
     protected function after_execute() {
         // 5️⃣ Restore standard intro files (if any).
         $this->add_related_files('mod_tabset', 'intro', null);
         // Restore all tabcontent files (single itemid = null).
         $this->add_related_files('mod_tabset', 'tabcontent', null);
+
     }
 }
